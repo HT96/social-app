@@ -17,6 +17,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('header')
 </head>
 <body>
     <div id="app">
@@ -34,6 +36,13 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
+
+                    @auth
+                        <form class="form-inline" action="{{ route('users') }}" method="GET">
+                            <input id="search" name="search" value="{{ request('search', '') }}" class="form-control mr-sm-2" type="search"  placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    @endauth
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -76,5 +85,7 @@
             @yield('content')
         </main>
     </div>
+
+    @yield('footer')
 </body>
 </html>

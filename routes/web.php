@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,8 @@ Route::middleware(['web', 'auth'])->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/', [DashboardController::class, 'index'])->name('/');
+
+    Route::get('/users', [UsersController::class, 'index'])->name('users');
+
+    Route::get('/users/list', [UsersController::class, 'getList'])->name('users/list');
 });
