@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserRelationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        return view('users.index', [
+            'relationshipStatuses' => UserRelationship::STATUSES
+        ]);
     }
 
     /**
@@ -30,22 +33,16 @@ class UsersController extends Controller
             abort(404);
         }
 
-        $query = User::query()
-            ->select(['id', 'name', 'surname'])
-            ->where('id', '!=', Auth::id());
-
-        if ($search = $request->get('search')) {
-            $search = explode(' ', trim($search));
-            $query->where(function($subQuery) use ($search) {
-                foreach ($search as $word) {
-                    if ($word) {
-                        $subQuery->orWhere('name', 'like', "%$word%")
-                            ->orWhere('surname', 'like', "%$word%");
-                    }
+        $keywords = [];
+        if ($search = $request->get('search', '')) {
+            foreach (explode(' ', $search) as $word) {
+                if ($word) {
+                    $keywords[] = $word;
                 }
-            });
+            }
         }
+        $users = User::getWithRelationship(Auth::id(), $keywords)->get();
 
-        return response()->json($query->get());
+        return response()->json($users);
     }
 }
