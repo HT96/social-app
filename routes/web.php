@@ -34,6 +34,8 @@ Route::middleware(['web', 'auth'])->group(function() {
 
     Route::get('/users', [UsersController::class, 'index'])->name('users');
 
+    Route::get('/users/show/{id}', [UsersController::class, 'show'])->name('users/show/*');
+
     Route::get('/users/list', [UsersController::class, 'list'])->name('users/list');
 
     Route::get('/friends', [FriendsController::class, 'index'])->name('friends');

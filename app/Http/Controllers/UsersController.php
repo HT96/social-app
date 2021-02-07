@@ -23,6 +23,34 @@ class UsersController extends Controller
     }
 
     /**
+     * Display user profile.
+     *
+     * @param  int $id
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function show($id)
+    {
+        $currentId = Auth::id();
+        if ($id == $currentId) {
+            $user = Auth::user();
+            $user->isCurrent = true;
+        } else {
+            $user = User::getWithRelationship($currentId)
+                ->where('users.id', '=', $id)
+                ->first();
+            if ( !$user) {
+                abort(404);
+            }
+            $user->isCurrent = false;
+        }
+
+        return view('users.show', [
+            'user' => $user,
+            'relationshipStatuses' => UserRelationship::STATUSES
+        ]);
+    }
+
+    /**
      * Get the users list.
      *
      * @param Request $request

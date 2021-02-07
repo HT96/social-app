@@ -51,7 +51,7 @@ class User extends Authenticatable
      * @param array $keywords
      * @return Builder
      */
-    public static function getWithRelationship(int $userId, array $keywords)
+    public static function getWithRelationship(int $userId, array $keywords = [])
     {
         $query = User::query()
             ->select(['users.id', 'users.name', 'users.surname', 'send_rel.status as send_status', 'receive_rel.status as receive_status'])

@@ -58,7 +58,9 @@ class UsersList {
         return `<div class="item-row alert alert-light" role="alert">
                     <div class="row">
                         <div class="col-md-8 col-sm-8">
-                            <h5 class="alert-heading"><a href="#${user.id}">${user.name} ${user.surname}</a></h5>
+                            <h5 class="alert-heading">
+                                <a href="${this.container.dataset.itemUrl + user.id}">${user.name} ${user.surname}</a>
+                            </h5>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             ${this.renderFriendButton(user)}
@@ -86,12 +88,12 @@ class UsersList {
     }
 
     /**
-     * Send F.
+     * Send request for update friend status.
      * @param {string} url
      * @param {Object} params
      * @return {Promise}
      */
-    sendFriendAction(url,params) {
+    sendFriendAction(url, params) {
         return axios.post(url, params)
             .catch((error) => {
                 const data = error.response.data;

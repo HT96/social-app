@@ -18,8 +18,10 @@ class ComposerServiceProvider extends ServiceProvider
     {
 
         view()->composer('*', function(View $view) {
-            if ($userId = Auth::id()) {
-                $view->with('incomingFriendRequestsCount', (new UserRelationship())->getIncomingFriendRequests($userId)->count());
+            $authUser = Auth::user();
+            if ($authUser) {
+                $view->with('authUser', $authUser)
+                    ->with('incomingFriendRequestsCount', (new UserRelationship())->getIncomingFriendRequests($authUser->id)->count());
             }
         });
     }

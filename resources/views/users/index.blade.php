@@ -13,7 +13,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <div id="users-container" data-url="{{ route('users/list') }}">
+                        <div id="users-container" data-url="{{ route('users/list') }}" data-item-url="{{ url('users/show') }}/">
                         </div>
                         <div class="d-flex justify-content-center">
                             <div id="users-container-loader" class="spinner-border" role="status">

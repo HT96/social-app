@@ -9,7 +9,7 @@
                         {{ __('Friend Requests') }}
                     </div>
                     <div class="card-body">
-                        <div id="friend-requests-container" data-url="{{ route('users/list') }}">
+                        <div id="friend-requests-container" data-url="{{ route('users/list') }}" data-item-url="{{ url('users/show') }}/">
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <div id="friends-container" data-url="{{ route('users/list') }}">
+                        <div id="friends-container" data-url="{{ route('users/list') }}" data-item-url="{{ url('users/show') }}/">
                         </div>
                         <div class="d-flex justify-content-center">
                             <div id="friends-container-loader" class="spinner-border" role="status">
