@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserRelationship;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,7 @@ class UsersController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getList(Request $request)
+    public function list(Request $request)
     {
         if ( !$request->wantsJson()) {
             abort(404);
@@ -41,8 +42,16 @@ class UsersController extends Controller
                 }
             }
         }
-        $users = User::getWithRelationship(Auth::id(), $keywords)->get();
+        $users = User::getWithRelationship(Auth::id(), $keywords);
+        if ($request->get('only_friends')) {
+            $users->where(function(Builder $query) {
+                $query->where('send_rel.status', '=', UserRelationship::STATUSES['approved'])
+                    ->orWhere('receive_rel.status', '=', UserRelationship::STATUSES['approved']);
+            });
+        } elseif ($request->get('only_incoming_requests')) {
+            $users->where('send_rel.status', '=', UserRelationship::STATUSES['pending']);
+        }
 
-        return response()->json($users);
+        return response()->json($users->get());
     }
 }

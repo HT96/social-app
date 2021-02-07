@@ -34,7 +34,9 @@ Route::middleware(['web', 'auth'])->group(function() {
 
     Route::get('/users', [UsersController::class, 'index'])->name('users');
 
-    Route::get('/users/list', [UsersController::class, 'getList'])->name('users/list');
+    Route::get('/users/list', [UsersController::class, 'list'])->name('users/list');
+
+    Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
 
     Route::post('/friends/add', [FriendsController::class, 'add'])->name('friends/add');
 

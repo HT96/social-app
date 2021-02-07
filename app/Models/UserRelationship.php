@@ -149,4 +149,17 @@ class UserRelationship extends Model
             ->where('status', '=', $statusFrom)
             ->update(['status' => $statusTo]);
     }
+
+    /**
+     * Get incoming friend requests.
+     *
+     * @param int $receiverId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getIncomingFriendRequests(int $receiverId)
+    {
+        return self::query()
+            ->where('user_receiver_id', '=', $receiverId)
+            ->where('status', '=', self::STATUSES['pending']);
+    }
 }

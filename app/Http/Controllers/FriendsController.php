@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class FriendsController extends Controller
 {
     /**
+     * Display the friends view.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('friends.index', [
+            'relationshipStatuses' => UserRelationship::STATUSES
+        ]);
+    }
+
+    /**
      * Handle add to friend request.
      *
      * @param FriendRequest  $request

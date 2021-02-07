@@ -32,15 +32,10 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
                     @auth
                         <form class="form-inline" action="{{ route('users') }}" method="GET">
-                            <input id="search" name="search" value="{{ request('search', '') }}" class="form-control mr-sm-2" type="search"  placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                            <input name="search" class="form-control mr-sm-2" type="search"  placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">{{ __('Search') }}</button>
                         </form>
                     @endauth
 
@@ -53,13 +48,18 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                @if($incomingFriendRequestsCount > 0)
+                                    <span class="badge badge-pill badge-danger float-right incoming-friend-requests-count" style="margin-bottom:-10px;">{{ $incomingFriendRequestsCount }}</span>
+                                @endif
+                                <a class="nav-link" href="{{ route('friends') }}">{{ __('Friends') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
