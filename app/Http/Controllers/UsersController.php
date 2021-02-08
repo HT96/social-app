@@ -80,6 +80,7 @@ class UsersController extends Controller
             $users->where('send_rel.status', '=', UserRelationship::STATUSES['pending']);
         }
 
+        // TODO add limitation
         return response()->json($users->get());
     }
 }

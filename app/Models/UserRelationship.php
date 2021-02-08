@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class UserRelationship extends Model
@@ -91,11 +92,25 @@ class UserRelationship extends Model
     }
 
     /**
+     * Check if users are Friends.
+     *
+     * @param int $firstId
+     * @param int $secondId
+     * @return bool
+     */
+    public function areFriends(int $firstId, int $secondId)
+    {
+        return $this->makeQuery($firstId, $secondId)
+            ->where('status', '=', self::STATUSES['approved'])
+            ->exists();
+    }
+
+    /**
      * Make users relationship query builder.
      *
      * @param int $senderId
      * @param int $receiverId
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     protected function makeQuery(int $senderId, int $receiverId)
     {
@@ -154,12 +169,31 @@ class UserRelationship extends Model
      * Get incoming friend requests.
      *
      * @param int $receiverId
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function getIncomingFriendRequests(int $receiverId)
     {
         return self::query()
             ->where('user_receiver_id', '=', $receiverId)
             ->where('status', '=', self::STATUSES['pending']);
+    }
+
+    /**
+     * Get Friend ids.
+     *
+     * @param int $userId
+     * @return array
+     */
+    public function getFriendIds(int $userId)
+    {
+        return self::query()
+            ->selectRaw('(`user_sender_id` + `user_receiver_id` - ?) as id', [$userId])
+            ->where('status', '=', self::STATUSES['approved'])
+            ->where(function(Builder $query) use($userId) {
+                $query->where('user_sender_id', '=', $userId)
+                    ->orWhere('user_receiver_id', '=', $userId);
+            })
+            ->pluck('id')
+            ->all();
     }
 }

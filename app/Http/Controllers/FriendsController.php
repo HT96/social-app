@@ -24,7 +24,7 @@ class FriendsController extends Controller
     /**
      * Handle add to friend request.
      *
-     * @param FriendRequest  $request
+     * @param FriendRequest $request
      * @return JsonResponse
      */
     public function add(FriendRequest $request)
@@ -48,7 +48,7 @@ class FriendsController extends Controller
     /**
      * Handle add to friend request.
      *
-     * @param FriendRequest  $request
+     * @param FriendRequest $request
      * @return JsonResponse
      */
     public function delete(FriendRequest $request)
@@ -70,7 +70,7 @@ class FriendsController extends Controller
     /**
      * Handle approve add to friend request.
      *
-     * @param FriendRequest  $request
+     * @param FriendRequest $request
      * @return JsonResponse
      */
     public function approve(FriendRequest $request)
@@ -92,7 +92,7 @@ class FriendsController extends Controller
     /**
      * Handle reject add to friend request.
      *
-     * @param FriendRequest  $request
+     * @param FriendRequest $request
      * @return JsonResponse
      */
     public function reject(FriendRequest $request)

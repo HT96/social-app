@@ -24,6 +24,7 @@ class UsersList {
         if (this.loader) {
             this.loader.style.display = '';
         }
+        // TODO load by chunk when scrolling
         return axios.get(this.container.dataset.url, {params: params})
             .then((response) => {
                 this.renderUsersContainer(response.data);
